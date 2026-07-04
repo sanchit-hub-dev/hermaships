@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "herma-shipping",
+  "private_key_id": "8c3992f2d24253bfe1a9d286511c951b11223d02",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDE88Bw0ezLXQFB\nfSf6QN+ldQZpc1x1VJe1znmMYU+g1AF8SudVARVBkhPIlPuILkdh357lHmPaf2Ys\nDHnFwSdAEcDHHXQd+bV2vLbi0NccXNk6rSQ6g4OAVoQiu+A+75dVewEhpQl8XDg3\nj73WMcMJAfz/GM9EJomQ1tI78r41+InFxgekw5ysh/Hwa3Lgwm2/zINbx+Ei1zSc\nGnYYjzmDFCcebsp0P2ES06S6EVgUj66H/lD7I3IivHdKNGnwOARYcn9vnlWMWUqq\np8aka/tvgaD7lvIq2bcn/WnASuy9MJuhdoDLqT2Von3i8ZARagEFM9dnSrvdQqvK\nw+duswJTAgMBAAECggEAC+6imZM2T+nOEiwleGVmx0zsOwZIszkRSev89DLPErTV\ndDTLiBxdL9BMT4orJQh8vaLBKytorEuson2NARyfJqQMtGOF7ez7f/qV7+7sIWVE\nqefkeoEOPf+/2KTeRKHaXszpeCLaDMU/iKo2O5xfLxQGQmQ75mqZSgOh0Az4Vieh\nyoRr8h3XWtNbXLkPw9hDnv6Ux3cln1Ae/3qZm4CXei61Ep2ya2BLgqY8rrcpnHOH\nH1FIqlS3qttiVuiAkmyqz6fKmEQOmG0BpzzBvtXeFt1dC5DNSCwBKRCeSoJzHHvo\nHW832g5DTWkwk6klqDksH8swSsAA6HyNCBuedwzQWQKBgQD2KK+oARJrYqDp7f++\nlhuaigtNvjllc01R7hRCoCJlw1hNyM1AU0v+XtgXAQyuXc74lPbxNpvJsjbyPWCN\nI/wgTPsOKYmc4kd9X1J135QVh+pXS9PiCG2Q/LgCCwG2WopO284NiWzQjGt6+4P2\nrD5AJV0c3ZfoqOtckKKnSVs+SwKBgQDM03Vx8rA6LPB2/7e4vxexDbPQKQWYksRP\n/datUpCtRYpxu9bsSbe4hgcjRteS0VcH19vB7JvnRCB5VDZRX82O2hJcaYhd+wtR\nKceRNMw7nCAcVSbIwwMxm+RQdNwD8ALQ3ER2Zn8Bi0tzbGT4okW/Mz/6uipBdU2C\nDkbeCRWnGQKBgFXGxbcAcJ+05ae+hHCwM/w9AEVd9PgyHo5fLPYugO3/DSVFxKgW\nnpOMDzas6fNUwwuCNS7GvbCiBl2RH7TvBitnR9CejtJ5UzoP3lcuypZaH0G+LZ5F\nG5D7T09+8GDP2gQyufGjoqRlWgqn3Es3qBWIL5MgcI/lVOaTi+pJOJ9TAoGAZXiA\nn2G+YiOvQRSwHKs2fnUuVnpsFkjnTkWPm6/ikqR30J5g/BANHzHuyVAoLcjdl7od\nWXXxSmHawKCyhB+1AwcPv45ci0p6McxD3LDOWN2gnsikfSL3KxVyx1UNRjoZ+wSU\nOh/O3aH3UAgsAWzKps0p7flaQ7FsI3kVLJxNiMkCgYB+B2lb6rrUBzSWwX+njMVW\ne0nRSCXnyK5VHos6TlUv4VN83bajJgbNiC3SwL0BHu6ovvsdBXJB7r6vSHmfn95P\nkiCgFNNOKrCpXltiSImItpf+g+0Qe4Hj3mX7boDCdn+lwcaAZ4b7uxAbRREJf3y3\nEqjLM0SGxGgEmALWUfZsIg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "herma-drive-service@herma-shipping.iam.gserviceaccount.com",
+  "client_id": "108129139275081162204",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/herma-drive-service%40herma-shipping.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

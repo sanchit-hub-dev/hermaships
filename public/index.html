@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coral Marine — Fleet Manual Management System</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="stylesheet" href="/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.js"></script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.js';</script>
+<script src="https://apis.google.com/js/api.js" async defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<!-- CORNER DECORATIONS -->
+<div class="corner-tl"></div>
+<div class="corner-tr"></div>
+<div class="corner-bl"></div>
+<div class="corner-br"></div>
+<div class="corner-credit">Made By: CORAL MARINE</div>
+
+<!-- BACKGROUND VIDEO (moved into splash/hero) -->
+
+<!-- BACKGROUND GRID -->
+<div id="gridBg">
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <defs>
+      <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(0,245,255,0.06)" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grid)"/>
+  </svg>
+</div>
+
+<!-- ================================================================
+     AUTH SCREEN
+================================================================ -->
+<div id="authScreen">
+  <div class="auth-bg-grid"></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div><img src="coral_logo_transparent.png?v=3" style="width:120px;height:60px;object-fit:contain"></div>
+      <div class="auth-title">Herma Shipping</div>
+      <div class="auth-sub">Fleet Manual Management System</div>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="loginTab" onclick="switchTab('login')">Sign In</button>
+          </div>
+    <div id="loginForm">
+      <div class="auth-field">
+        <div class="auth-label">Username</div>
+        <input class="auth-inp" id="loginUser" placeholder="Enter username" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="auth-field">
+        <div class="auth-label">Password</div>
+        <input class="auth-inp" id="loginPass" type="password" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="auth-btn" id="loginBtn" onclick="doLogin()">Access System</button>
+      <!-- <div class="auth-help">Admin: Herma / ABS2026 &nbsp;|&nbsp; User: Herma_Shipping / ABS2026</div> -->
+    </div>
+    <div class="auth-err" id="authErr"></div>
+    <div class="auth-status">
+      <span class="auth-dot"></span>
+      <span>Multi-User · Cloud Sync · Persistent Storage</span>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SPLASH SCREEN
+================================================================ -->
+<div id="splash" style="display:none;position:relative;overflow:hidden">
+  <video id="splashVideo" class="splash-video" autoplay muted loop playsinline preload="auto">
+    <source src="/coral_logo_transparent.mp4" type="video/mp4">
+  </video>
+  <div class="splash-grid"></div>
+  <div class="splash-orb"></div>
+  <div class="splash-ring ring1"></div>
+  <div class="splash-ring ring2"></div>
+  <div class="splash-ring ring3"></div>
+  <div class="sp-user-info">
+    <div class="sp-user-badge" id="splashUserBadge">
+      <i class="ti ti-user" style="font-size:13px"></i>
+      <span id="splashUserName"></span>
+    </div>
+    <button class="sp-logout-btn" onclick="doLogout()"><i class="ti ti-logout" style="font-size:13px"></i> Logout</button>
+  </div>
+  <div class="sp-logo-wrap" style="position:relative;z-index:2">
+    <div><img src="coral_logo_transparent.png?v=3" style="width:140px;height:140px;object-fit:contain"></div>
+  </div>
+  <div class="sp-divider"></div>
+  <div class="sp-btn-wrap">
+    <button class="sp-btn" onclick="enterFleet()"><span>&#11045; &nbsp;Access Fleet</span></button>
+  </div>
+  <div class="sp-status">
+    <span class="sp-dot"></span>
+    <span>System Ready</span>
+  </div>
+</div>
+
+<!-- ================================================================
+     FLEET SCREEN
+================================================================ -->
+<div id="fleetScreen" style="display:none">
+  <div class="fleet-hdr">
+  <div><img src="coral_logo_transparent.png?v=3" style="width:120px;height:60px;object-fit:contain"></div>
+    <div class="fleet-hdr-brand">
+      <div class="fleet-hdr-corp">Herma Shipping &amp; Transport Corp.</div>
+      <div class="fleet-hdr-sys">Fleet Manual Management System</div>
+    </div>
+    <div class="fleet-hdr-sp"></div>
+    <div class="fleet-user-pill">
+      <i class="ti ti-user" style="font-size:12px"></i>
+      <strong id="fleetUserName"></strong>
+      <span class="fleet-user-role" id="fleetUserRole"></span>
+    </div>
+    <div class="sync-indicator">
+      <div class="sync-dot synced" id="fleetSyncDot"></div>
+      <span id="fleetSyncText">Synced</span>
+    </div>
+    <button class="fleet-home-btn" onclick="toggleOfflineMode()" title="Toggle offline mode" id="fleetOfflineBtn" style="background:transparent;border:1px solid rgba(0,245,255,0.2)"><i class="ti ti-wifi-off"></i></button>
+    <div class="fleet-hdr-stat">
+      <div class="fleet-hdr-dot"></div>
+      <span>Fleet Online</span>
+      <span style="color:var(--text-muted);margin:0 6px">·</span>
+      <span id="fleetVesselCount" style="color:var(--cyan);font-family:'Share Tech Mono',monospace">0</span>
+      <span>&nbsp;Vessels</span>
+    </div>
+    <button class="fleet-home-btn" onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="fleet-home-btn" onclick="migrateInlineImages()" title="Migrate inline images to Drive"><i class="ti ti-cloud-upload"></i><span>Migrate Images</span></button>
+    <button class="fleet-home-btn" onclick="doLogout()" style="border-color:rgba(255,68,102,0.3);color:var(--red)"><i class="ti ti-logout"></i></button>
+  </div>
+  <div class="fleet-body">
+    <div class="fleet-bg-grid"></div>
+    <div class="fleet-section-title">
+      <h2>Fleet Registry</h2>
+      <div class="fleet-title-line"></div>
+      <div style="position:relative;flex-shrink:0">
+        <i class="ti ti-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-muted);pointer-events:none"></i>
+        <input id="fleetSearch" placeholder="Search vessel…" oninput="filterFleet(this.value)" style="background:rgba(0,245,255,0.04);border:1px solid var(--cyan-border2);color:var(--text);font-family:'Exo 2',sans-serif;font-size:12px;padding:6px 12px 6px 30px;width:200px;outline:none;letter-spacing:.04em" onfocus="this.style.borderColor='var(--cyan)'" onblur="this.style.borderColor='var(--cyan-border2)'">
+      </div>
+      <div class="fleet-count-wrapper">
+        <div class="fleet-count-badge" id="fleetCountBadge">0 Vessels</div>
+        <div class="fleet-search-info" id="fleetSearchInfo"></div>
+      </div>
+    </div>
+    <div class="fleet-search-panel" id="fleetSearchPanel" style="display:none">
+      <div class="fleet-search-panel-title">PDF Search Results</div>
+      <div class="fleet-search-files" id="fleetSearchFiles"></div>
+    </div>
+    <div class="vessel-grid" id="vesselGrid"></div>
+  </div>
+</div>
+
+<!-- ================================================================
+     ADD / EDIT VESSEL MODAL
+================================================================ -->
+<div id="addVesselModal">
+  <div class="avm-box">
+    <button class="avm-close" onclick="closeAddVessel()"><i class="ti ti-x"></i></button>
+    <!-- FIX: hidden input was missing — required for edit vessel to work -->
+    <input type="hidden" id="avm-edit-id" value="">
+    <div class="avm-title" id="avm-title"><i class="ti ti-ship"></i>Register New Vessel</div>
+    <div class="avm-grid">
+      <div class="avm-field full">
+        <div class="avm-label">Vessel Name *</div>
+        <input class="avm-inp" id="avm-name" placeholder="e.g. M/Tkr. MAUNLAD" autocomplete="off">
+      </div>
+      <div class="avm-field">
+        <div class="avm-label">IMO Number</div>
+        <input class="avm-inp" id="avm-imo" placeholder="e.g. 9907988" autocomplete="off">
+      </div>
+      <div class="avm-field">
+        <div class="avm-label">Vessel Type</div>
+        <select class="avm-select avm-inp" id="avm-type">
+          <option value="tanker">Tanker</option>
+          <option value="bulk">Bulk Carrier</option>
+          <option value="cargo">General Cargo</option>
+          <option value="tug">Tug / Workboat</option>
+          <option value="barge">Barge</option>
+        </select>
+      </div>
+      <div class="avm-field">
+        <div class="avm-label">Flag State</div>
+        <input class="avm-inp" id="avm-flag" placeholder="e.g. Philippines" autocomplete="off">
+      </div>
+      <div class="avm-field">
+        <div class="avm-label">Built Year</div>
+        <input class="avm-inp" id="avm-year" placeholder="e.g. 2019" autocomplete="off" type="number">
+      </div>
+      <div class="avm-field full">
+        <div class="avm-label">Image URL</div>
+        <input class="avm-inp" id="avm-image" placeholder="https://example.com/vessel.jpg" autocomplete="off" oninput="updateImagePreview(this.value)">
+        <div id="avm-image-preview" class="avm-image-preview">Paste an image URL to preview it here.</div>
+      </div>
+    </div>
+    <div class="avm-footer">
+      <button type="button" class="avm-btn" onclick="closeAddVessel()">Cancel</button>
+      <button type="button" class="avm-btn avm-btn-primary" id="avm-submit-btn" onclick="confirmAddVessel()">
+        <i class="ti ti-plus" style="margin-right:4px"></i>Register Vessel
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     MAIN APP
+================================================================ -->
+<!-- FIX: added display:none to prevent flash before JS loads -->
+<div id="app" style="display:none">
+  <div class="hdr">
+    <div><img src="coral_logo_transparent.png?v=3" style="width:100px;height:50px;object-fit:contain"></div>
+    <div class="hdr-brand">
+      <div class="hdr-corp">Herma Shipping &amp; Transport Corp.</div>
+      <div class="hdr-sys">Vessel Manual Management System</div>
+    </div>
+    <div class="hdiv"></div>
+    <div class="vessel-switcher-container">
+      <div class="vessel-badge" onclick="toggleVesselSwitcher(event)">
+        <div>
+          <div class="vessel-badge-label">Active Vessel</div>
+          <div class="vessel-badge-name" id="activeVesselName">—</div>
+        </div>
+        <i class="ti ti-chevron-down vessel-switcher-icon"></i>
+      </div>
+      <div class="vessel-switcher-dropdown" id="vesselSwitcher">
+        <div class="vessel-switcher-title">Jump to another vessel</div>
+        <div class="vessel-switcher-list" id="vesselSwitcherList"></div>
+        <button class="vessel-switcher-close" onclick="closeVesselSwitcher()">Close</button>
+      </div>
+    </div>
+    <div class="hsp"></div>
+    <div class="sync-indicator" style="margin-right:6px">
+      <div class="sync-dot synced" id="appSyncDot"></div>
+      <span id="appSyncText">Synced</span>
+    </div>
+    <button class="hbtn" onclick="toggleOfflineMode()" title="Toggle offline mode" id="appOfflineBtn" style="margin-right:6px"><i class="ti ti-wifi-off"></i><span class="hbtn-lbl" id="offlineModeIndicator"> ONLINE</span></button>
+    <div class="srch-wrap">
+      <i class="ti ti-search"></i>
+      <input class="srch" placeholder="Search…" id="searchBox" oninput="onSearch(this.value)">
+    </div>
+    <button class="hbtn hbtn-fleet" onclick="goFleet()"><i class="ti ti-ship"></i><span class="hbtn-lbl"> Fleet</span></button>
+  </div>
+  <div class="sbar">
+    <div class="si"><span class="sdot"></span><span>System Online</span></div>
+    <div class="si">User: <span class="sv" id="statUser">—</span></div>
+    <div class="si">Vessel: <span class="sv" id="statVessel">—</span></div>
+    <div class="si">Flag: <span class="sv" id="statFlag">—</span></div>
+    <div class="si">IMO: <span class="sv" id="statIMO">—</span></div>
+    <div class="si">Type: <span class="sv" id="statType">—</span></div>
+    <div class="si">Built: <span class="sv" id="statYear">—</span></div>
+    <div class="si">Folders: <span class="sv" id="statF">—</span></div>
+    <div class="si">Manuals: <span class="sv" id="statM">—</span></div>
+  </div>
+  <div class="body">
+    <div class="sidebar">
+      <div class="sb-hd">
+        <div class="sb-left">
+          <span class="sb-lbl">Systems</span>
+          <button class="hbtn sidebar-add-btn" onclick="toggleAddFolder()"><i class="ti ti-folder-plus"></i><span class="hbtn-lbl"> Add Folder</span></button>
+        </div>
+        <span class="sb-count" id="sbCount">0</span>
+      </div>
+      <div class="flist" id="folderList"></div>
+      <div class="af-bar" id="afBar">
+        <span class="af-lbl" id="afLabel">+ FOLDER</span>
+        <input class="af-inp" id="afInp" placeholder="Folder name…" onkeydown="afKey(event)">
+        <button class="af-btn" onclick="confirmAdd()">Add</button>
+        <button class="af-btn af-x" onclick="toggleAddFolder()"><i class="ti ti-x"></i></button>
+      </div>
+    </div>
+    <div class="main">
+      <div id="mainWrap" style="display:flex;flex-direction:column;flex:1;overflow:hidden;min-height:0">
+        <div class="nofolder" id="noFolder">
+          <i class="ti ti-folders"></i>
+          <div class="nofolder-title">Select a System Folder</div>
+          <div class="nofolder-sub">Choose from the panel on the left</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     PDF VIEWER
+================================================================ -->
+<div id="pdfOverlay">
+  <div class="pv-bar">
+    <div><img src="coral_logo_transparent.png?v=3" style="width:100px;height:50px;object-fit:contain"></div>
+    <div class="pv-title" id="pvTitle">Document</div>
+    <div class="pv-srch-wrap">
+      <i class="ti ti-search"></i>
+      <input class="pv-srch" id="pvSearch" placeholder="Search in PDF…" oninput="pvSearchText(this.value)" onkeydown="pvSearchKey(event)">
+    </div>
+    <span class="pv-srch-info" id="pvSearchInfo"></span>
+    <button class="pv-btn" id="pvDownloadBtn" title="Download PDF"><i class="ti ti-download"></i></button>
+    <button class="pv-btn" id="pvPrevBtn" title="Previous search result (Shift+Enter)"><i class="ti ti-chevron-up"></i></button>
+    <button class="pv-btn" id="pvNextBtn" title="Next search result (Enter)"><i class="ti ti-chevron-down"></i></button>
+    <button class="pv-btn close-btn" onclick="closePdfViewer()"><i class="ti ti-x"></i> Close</button>
+  </div>
+  <div class="pv-offline-banner" id="pvOfflineBanner" style="display:none">
+    <i class="ti ti-cloud-off" style="margin-right:8px"></i>
+    <span>You are offline. PDF search and navigation may be limited.</span>
+  </div>
+  <div id="pdfViewer" class="pdf-viewer">
+    <canvas id="pdfCanvas"></canvas>
+    <div class="pdf-page-indicator" id="pdfPageIndicator">Page 0 / 0</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
